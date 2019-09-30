@@ -9,26 +9,28 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
 
-        JFileChooser firstChooser = new JFileChooser();
-        JFileChooser secondChooser = new JFileChooser();
+        FileDifferenceWindow fdw = new FileDifferenceWindow();
+        fdw.setSize(500, 500);
+        fdw.setVisible(true);
 
-        firstChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        /*
         secondChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int result1 = firstChooser.showOpenDialog(null);
         int result2 = secondChooser.showOpenDialog(null);
-        
+
         File file1 = firstChooser.getSelectedFile();
         File file2 = secondChooser.getSelectedFile();
 
-        traverse(file1, file2);
+        traverse(file1, file2);*/
 
     }
 
     public static String getStringToStrip(String path) {
         int location = path.lastIndexOf("\\");
         return path.substring(0, location);
-
     }
+
     public static void traverse(File directory1, File directory2) {
         if(directory1.isDirectory()) {
             File[] directory1Files = directory1.listFiles();
@@ -47,7 +49,9 @@ public class Main {
                         }
                     } else {
                         try {
-                            System.out.println(file1.getPath() + " " + file2.getPath() + " are equal: " + FileUtils.contentEquals(file1, file2));
+                            if(!FileUtils.contentEquals(file1, file2)) {
+                                System.out.println(file1.getPath() + " " + file2.getPath() + "differ!");
+                            }
                         } catch (IOException e) {
                             System.out.println("rip");
                         }
@@ -56,8 +60,6 @@ public class Main {
                 else {
                     System.out.println("File " + file1.getPath() + " exists, but no such file was found in the other folder!");
                 }
-
-
             }
         }
     }
