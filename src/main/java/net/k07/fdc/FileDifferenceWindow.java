@@ -1,16 +1,22 @@
 package net.k07.fdc;
 
+import org.apache.commons.io.FileUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 public class FileDifferenceWindow extends JFrame {
 
     private File directory1, directory2;
     public static final JTextField folder1TextField = new JTextField();
     public static final JTextField folder2TextField = new JTextField();
+    public static final JTextArea outputArea = new JTextArea();
+    public static final JTextArea newFilesArea = new JTextArea();
+
     public FileDifferenceWindow() {
         this.setLayout(new GridBagLayout());
 
@@ -131,9 +137,9 @@ public class FileDifferenceWindow extends JFrame {
         GridBagConstraints c7 = new GridBagConstraints();
         c7.gridx = 0;
         c7.gridy = 2;
-        c7.gridwidth = 6;
-        c7.gridheight = 1;
-        c7.fill = GridBagConstraints.HORIZONTAL;
+        c7.gridwidth = 3;
+        c7.gridheight = 2;
+        c7.fill = GridBagConstraints.BOTH;
         c7.ipadx = 0;
         c7.ipady = 0;
         c7.insets = new Insets(0, 0, 0, 0);
@@ -141,14 +147,54 @@ public class FileDifferenceWindow extends JFrame {
         c7.weightx = 0.8;
         c7.weighty = 0.1;
 
+        JPanel outputPanel = new JPanel();
+        outputPanel.setBorder(BorderFactory.createTitledBorder("Output"));
+        JScrollPane pane = new JScrollPane(outputArea);
+        outputPanel.setLayout(new GridLayout());
+        outputPanel.add(pane);
+        this.add(outputPanel, c7);
+
+        GridBagConstraints c8 = new GridBagConstraints();
+        c8.gridx = 3;
+        c8.gridy = 2;
+        c8.gridwidth = 3;
+        c8.gridheight = 2;
+        c8.fill = GridBagConstraints.BOTH;
+        c8.ipadx = 0;
+        c8.ipady = 0;
+        c8.insets = new Insets(0, 0, 0, 0);
+        c8.anchor = GridBagConstraints.CENTER;
+        c8.weightx = 0.8;
+        c8.weighty = 0.1;
+
+        JPanel newFilesPanel = new JPanel();
+        newFilesPanel.setBorder(BorderFactory.createTitledBorder("Output"));
+        JScrollPane newPane = new JScrollPane(newFilesArea);
+        newFilesPanel.setLayout(new GridLayout());
+        newFilesPanel.add(newPane);
+        this.add(newFilesPanel, c8);
+
+        GridBagConstraints c9 = new GridBagConstraints();
+        c9.gridx = 0;
+        c9.gridy = 4;
+        c9.gridwidth = 6;
+        c9.gridheight = 1;
+        c9.fill = GridBagConstraints.HORIZONTAL;
+        c9.ipadx = 0;
+        c9.ipady = 0;
+        c9.insets = new Insets(0, 0, 0, 0);
+        c9.anchor = GridBagConstraints.CENTER;
+        c9.weightx = 0.8;
+        c9.weighty = 0.1;
+
         JButton traverseButton = new JButton("Start");
         traverseButton.addActionListener( new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Main.traverse(directory1, directory2);
+                outputArea.setText("");
+                traverse(directory1, directory2);
             }
         });
-        this.add(traverseButton, c7);
-
+        this.add(traverseButton, c9);
 
 
     }
@@ -164,5 +210,47 @@ public class FileDifferenceWindow extends JFrame {
         else {
             return null;
         }
+    }
+
+    public static void traverse(File directory1, File directory2) {
+        if(directory1.isDirectory()) {
+            File[] directory1Files = directory1.listFiles();
+            File[] directory2Files = directory2.listFiles();
+
+            for(File file1: directory1Files) {
+                String file1Name = file1.getName();
+                File file2 = getFileByName(file1Name, directory2Files);
+
+                if(!(file2 == null)) {
+                    if (file1.isDirectory()) {
+                        if (file2.isDirectory()) {
+                            traverse(file1, file2);
+                        } else {
+                            outputArea.append("Directory " + file1.getPath() + " exists, but no such directory was found in the other folder!\n");
+                        }
+                    } else {
+                        try {
+                            if(!FileUtils.contentEquals(file1, file2)) {
+                                outputArea.append(file1.getPath() + " " + file2.getPath() + "differ!\n");
+                            }
+                        } catch (IOException e) {
+                            outputArea.append("IOException occurred!\n");
+                        }
+                    }
+                }
+                else {
+                    newFilesArea.append("File " + file1.getPath() + " exists, but no such file was found in the other folder!\n");
+                }
+            }
+        }
+    }
+
+    public static File getFileByName(String name, File[] files) {
+        for(File file: files) {
+            if(name.equals(file.getName())) {
+                return file;
+            }
+        }
+        return null;
     }
 }
