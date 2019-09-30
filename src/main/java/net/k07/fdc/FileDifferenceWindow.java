@@ -21,8 +21,8 @@ public class FileDifferenceWindow extends JFrame {
     public static final JTextArea uniqueToFolder2 = new JTextArea();
 
     public FileDifferenceWindow() {
+        this.setTitle("File Difference Checker");
         this.setLayout(new GridBagLayout());
-
 
         JLabel folder1Label = new JLabel("Newer folder:");
         this.add(folder1Label, ConstraintsList.c1);
@@ -67,13 +67,25 @@ public class FileDifferenceWindow extends JFrame {
         JButton traverseButton = new JButton("Start");
         traverseButton.addActionListener( new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changedFiles.setText("");
-                uniqueToFolder1.setText("");
-                uniqueToFolder2.setText("");
-                traverse(directory1, directory2);
+                SwingWorker worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    public Void doInBackground() {
+                        clearAllOutputs();
+                        traverse(directory1, directory2);
+                        return null;
+                    }
+                };
+
+                worker.execute();
             }
         });
         this.add(traverseButton, ConstraintsList.c10);
+    }
+
+    public void clearAllOutputs() {
+        changedFiles.setText("");
+        uniqueToFolder1.setText("");
+        uniqueToFolder2.setText("");
     }
 
     public JPanel wrapInScrollPaneAndPanel(Component c, String name) {
@@ -83,6 +95,7 @@ public class FileDifferenceWindow extends JFrame {
         panel.add(pane);
         return panel;
     }
+
     public File selectDirectory() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
