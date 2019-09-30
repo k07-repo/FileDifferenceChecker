@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FileDifferenceWindow extends JFrame {
 
@@ -20,82 +22,67 @@ public class FileDifferenceWindow extends JFrame {
     public FileDifferenceWindow() {
         this.setLayout(new GridBagLayout());
 
-        GridBagConstraints c1 = new GridBagConstraints();
-        c1.gridx = 0;
-        c1.gridy = 0;
-        c1.gridwidth = 1;
-        c1.gridheight = 1;
-        c1.fill = GridBagConstraints.HORIZONTAL;
-        c1.ipadx = 0;
-        c1.ipady = 0;
-        c1.insets = new Insets(0, 0, 0, 0);
-        c1.anchor = GridBagConstraints.CENTER;
-        c1.weightx = 0.1;
-        c1.weighty = 0.1;
+        GridBagConstraints c1 = new GBCBuilder()
+                .gridLocation(0, 0)
+                .componentSize(1, 1)
+                .internalPadding(0, 0)
+                .externalPadding(0, 0, 0, 0)
+                .fill(GridBagConstraints.HORIZONTAL)
+                .anchor(GridBagConstraints.CENTER)
+                .weight(0.1, 0.1)
+                .build();
 
         JLabel folder1Label = new JLabel("Newer folder:");
         this.add(folder1Label, c1);
 
-        GridBagConstraints c2 = new GridBagConstraints();
-        c2.gridx = 1;
-        c2.gridy = 0;
-        c2.gridwidth = 2;
-        c2.gridheight = 1;
-        c2.fill = GridBagConstraints.HORIZONTAL;
-        c2.ipadx = 0;
-        c2.ipady = 0;
-        c2.insets = new Insets(0, 0, 0, 0);
-        c2.anchor = GridBagConstraints.CENTER;
-        c2.weightx = 0.3;
-        c2.weighty = 0.1;
+        GridBagConstraints c2 = new GBCBuilder()
+                .gridLocation(1, 0)
+                .componentSize(2, 1)
+                .internalPadding(0, 0)
+                .externalPadding(0, 0, 0, 0)
+                .fill(GridBagConstraints.HORIZONTAL)
+                .anchor(GridBagConstraints.CENTER)
+                .weight(0.3, 0.1)
+                .build();
 
         folder1TextField.setEditable(false);
         this.add(folder1TextField, c2);
 
-        GridBagConstraints c3 = new GridBagConstraints();
-        c3.gridx = 3;
-        c3.gridy = 0;
-        c3.gridwidth = 1;
-        c3.gridheight = 1;
-        c3.fill = GridBagConstraints.HORIZONTAL;
-        c3.ipadx = 0;
-        c3.ipady = 0;
-        c3.insets = new Insets(0, 0, 0, 0);
-        c3.anchor = GridBagConstraints.CENTER;
-        c3.weightx = 0.1;
-        c3.weighty = 0.1;
+        GridBagConstraints c3 = new GBCBuilder()
+                .gridLocation(3, 0)
+                .componentSize(1, 1)
+                .internalPadding(0, 0)
+                .externalPadding(0, 0, 0, 0)
+                .fill(GridBagConstraints.HORIZONTAL)
+                .anchor(GridBagConstraints.CENTER)
+                .weight(0.1, 0.1)
+                .build();
 
         JLabel folder2Label = new JLabel("Older folder:");
         this.add(folder2Label, c3);
 
-        GridBagConstraints c4 = new GridBagConstraints();
-        c4.gridx = 4;
-        c4.gridy = 0;
-        c4.gridwidth = 2;
-        c4.gridheight = 1;
-        c4.fill = GridBagConstraints.HORIZONTAL;
-        c4.ipadx = 0;
-        c4.ipady = 0;
-        c4.insets = new Insets(0, 0, 0, 0);
-        c4.anchor = GridBagConstraints.CENTER;
-        c4.weightx = 0.3;
-        c4.weighty = 0.1;
+        GridBagConstraints c4 = new GBCBuilder()
+                .gridLocation(4, 0)
+                .componentSize(2, 1)
+                .internalPadding(0, 0)
+                .externalPadding(0, 0, 0, 0)
+                .fill(GridBagConstraints.HORIZONTAL)
+                .anchor(GridBagConstraints.CENTER)
+                .weight(0.3, 0.1)
+                .build();
 
         folder2TextField.setEditable(false);
         this.add(folder2TextField, c4);
 
-        GridBagConstraints c5 = new GridBagConstraints();
-        c5.gridx = 0;
-        c5.gridy = 1;
-        c5.gridwidth = 3;
-        c5.gridheight = 1;
-        c5.fill = GridBagConstraints.HORIZONTAL;
-        c5.ipadx = 0;
-        c5.ipady = 0;
-        c5.insets = new Insets(0, 0, 0, 0);
-        c5.anchor = GridBagConstraints.CENTER;
-        c5.weightx = 0.3;
-        c5.weighty = 0.1;
+        GridBagConstraints c5 = new GBCBuilder()
+                .gridLocation(0, 1)
+                .componentSize(3, 1)
+                .internalPadding(0, 0)
+                .externalPadding(0, 0, 0, 0)
+                .fill(GridBagConstraints.HORIZONTAL)
+                .anchor(GridBagConstraints.CENTER)
+                .weight(0.3, 0.1)
+                .build();
 
         JButton folder1Button = new JButton("Select newer folder...");
         folder1Button.addActionListener( new ActionListener() {
@@ -109,18 +96,15 @@ public class FileDifferenceWindow extends JFrame {
         });
         this.add(folder1Button, c5);
 
-        GridBagConstraints c6 = new GridBagConstraints();
-        c6.gridx = 3;
-        c6.gridy = 1;
-        c6.gridwidth = 3;
-        c6.gridheight = 1;
-        c6.fill = GridBagConstraints.HORIZONTAL;
-        c6.ipadx = 0;
-        c6.ipady = 0;
-        c6.insets = new Insets(0, 0, 0, 0);
-        c6.anchor = GridBagConstraints.CENTER;
-        c6.weightx = 0.3;
-        c6.weighty = 0.1;
+        GridBagConstraints c6 = new GBCBuilder()
+                .gridLocation(3, 1)
+                .componentSize(3, 1)
+                .internalPadding(0, 0)
+                .externalPadding(0, 0, 0, 0)
+                .fill(GridBagConstraints.HORIZONTAL)
+                .anchor(GridBagConstraints.CENTER)
+                .weight(0.3, 0.1)
+                .build();
 
         JButton folder2Button = new JButton("Select older folder...");
         folder2Button.addActionListener( new ActionListener() {
@@ -134,18 +118,15 @@ public class FileDifferenceWindow extends JFrame {
         });
         this.add(folder2Button, c6);
 
-        GridBagConstraints c7 = new GridBagConstraints();
-        c7.gridx = 0;
-        c7.gridy = 2;
-        c7.gridwidth = 3;
-        c7.gridheight = 2;
-        c7.fill = GridBagConstraints.BOTH;
-        c7.ipadx = 0;
-        c7.ipady = 0;
-        c7.insets = new Insets(0, 0, 0, 0);
-        c7.anchor = GridBagConstraints.CENTER;
-        c7.weightx = 0.8;
-        c7.weighty = 0.1;
+        GridBagConstraints c7 = new GBCBuilder()
+                .gridLocation(0, 2)
+                .componentSize(3, 2)
+                .internalPadding(0, 0)
+                .externalPadding(0, 0, 0, 0)
+                .fill(GridBagConstraints.BOTH)
+                .anchor(GridBagConstraints.CENTER)
+                .weight(0.8, 0.1)
+                .build();
 
         JPanel outputPanel = new JPanel();
         outputPanel.setBorder(BorderFactory.createTitledBorder("Output"));
@@ -154,18 +135,15 @@ public class FileDifferenceWindow extends JFrame {
         outputPanel.add(pane);
         this.add(outputPanel, c7);
 
-        GridBagConstraints c8 = new GridBagConstraints();
-        c8.gridx = 3;
-        c8.gridy = 2;
-        c8.gridwidth = 3;
-        c8.gridheight = 2;
-        c8.fill = GridBagConstraints.BOTH;
-        c8.ipadx = 0;
-        c8.ipady = 0;
-        c8.insets = new Insets(0, 0, 0, 0);
-        c8.anchor = GridBagConstraints.CENTER;
-        c8.weightx = 0.8;
-        c8.weighty = 0.1;
+        GridBagConstraints c8 = new GBCBuilder()
+                .gridLocation(3, 2)
+                .componentSize(3, 2)
+                .internalPadding(0, 0)
+                .externalPadding(0, 0, 0, 0)
+                .fill(GridBagConstraints.BOTH)
+                .anchor(GridBagConstraints.CENTER)
+                .weight(0.8, 0.1)
+                .build();
 
         JPanel newFilesPanel = new JPanel();
         newFilesPanel.setBorder(BorderFactory.createTitledBorder("Output"));
@@ -174,18 +152,15 @@ public class FileDifferenceWindow extends JFrame {
         newFilesPanel.add(newPane);
         this.add(newFilesPanel, c8);
 
-        GridBagConstraints c9 = new GridBagConstraints();
-        c9.gridx = 0;
-        c9.gridy = 4;
-        c9.gridwidth = 6;
-        c9.gridheight = 1;
-        c9.fill = GridBagConstraints.HORIZONTAL;
-        c9.ipadx = 0;
-        c9.ipady = 0;
-        c9.insets = new Insets(0, 0, 0, 0);
-        c9.anchor = GridBagConstraints.CENTER;
-        c9.weightx = 0.8;
-        c9.weighty = 0.1;
+        GridBagConstraints c9 = new GBCBuilder()
+                .gridLocation(0, 4)
+                .componentSize(6, 1)
+                .internalPadding(0, 0)
+                .externalPadding(0, 0, 0, 0)
+                .fill(GridBagConstraints.HORIZONTAL)
+                .anchor(GridBagConstraints.CENTER)
+                .weight(0.8, 0.1)
+                .build();
 
         JButton traverseButton = new JButton("Start");
         traverseButton.addActionListener( new ActionListener() {
@@ -217,8 +192,13 @@ public class FileDifferenceWindow extends JFrame {
             File[] directory1Files = directory1.listFiles();
             File[] directory2Files = directory2.listFiles();
 
+            Set<String> directory1Names = new HashSet<String>();
+            Set<String> directory2Names = new HashSet<String>();
+
             for(File file1: directory1Files) {
                 String file1Name = file1.getName();
+                directory1Names.add(file1Name);
+
                 File file2 = getFileByName(file1Name, directory2Files);
 
                 if(!(file2 == null)) {
@@ -239,8 +219,18 @@ public class FileDifferenceWindow extends JFrame {
                     }
                 }
                 else {
-                    newFilesArea.append("File " + file1.getPath() + " exists, but no such file was found in the other folder!\n");
+                    newFilesArea.append("File " + file1.getPath() + " exists in dir1, but no such file was found in dir2!\n");
                 }
+            }
+
+            for(File file2: directory2Files) {
+                directory2Names.add(file2.getName());
+
+            }
+
+            directory2Names.removeAll(directory1Names);
+            for(String name: directory2Names) {
+                newFilesArea.append("File " + name + " exists in dir2, but no such file was found in dir1!\n");
             }
         }
     }
