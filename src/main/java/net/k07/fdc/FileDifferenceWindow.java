@@ -23,67 +23,18 @@ public class FileDifferenceWindow extends JFrame {
     public FileDifferenceWindow() {
         this.setLayout(new GridBagLayout());
 
-        GridBagConstraints c1 = new GBCBuilder()
-                .gridLocation(0, 0)
-                .componentSize(1, 1)
-                .internalPadding(0, 0)
-                .externalPadding(0, 0, 0, 0)
-                .fill(GridBagConstraints.HORIZONTAL)
-                .anchor(GridBagConstraints.CENTER)
-                .weight(0.1, 0.1)
-                .build();
 
         JLabel folder1Label = new JLabel("Newer folder:");
-        this.add(folder1Label, c1);
-
-        GridBagConstraints c2 = new GBCBuilder()
-                .gridLocation(1, 0)
-                .componentSize(2, 1)
-                .internalPadding(0, 0)
-                .externalPadding(0, 0, 0, 0)
-                .fill(GridBagConstraints.HORIZONTAL)
-                .anchor(GridBagConstraints.CENTER)
-                .weight(0.3, 0.1)
-                .build();
+        this.add(folder1Label, ConstraintsList.c1);
 
         folder1TextField.setEditable(false);
-        this.add(folder1TextField, c2);
-
-        GridBagConstraints c3 = new GBCBuilder()
-                .gridLocation(3, 0)
-                .componentSize(1, 1)
-                .internalPadding(0, 0)
-                .externalPadding(0, 0, 0, 0)
-                .fill(GridBagConstraints.HORIZONTAL)
-                .anchor(GridBagConstraints.CENTER)
-                .weight(0.1, 0.1)
-                .build();
+        this.add(folder1TextField, ConstraintsList.c2);
 
         JLabel folder2Label = new JLabel("Older folder:");
-        this.add(folder2Label, c3);
-
-        GridBagConstraints c4 = new GBCBuilder()
-                .gridLocation(4, 0)
-                .componentSize(2, 1)
-                .internalPadding(0, 0)
-                .externalPadding(0, 0, 0, 0)
-                .fill(GridBagConstraints.HORIZONTAL)
-                .anchor(GridBagConstraints.CENTER)
-                .weight(0.3, 0.1)
-                .build();
+        this.add(folder2Label, ConstraintsList.c3);
 
         folder2TextField.setEditable(false);
-        this.add(folder2TextField, c4);
-
-        GridBagConstraints c5 = new GBCBuilder()
-                .gridLocation(0, 1)
-                .componentSize(3, 1)
-                .internalPadding(0, 0)
-                .externalPadding(0, 0, 0, 0)
-                .fill(GridBagConstraints.HORIZONTAL)
-                .anchor(GridBagConstraints.CENTER)
-                .weight(0.3, 0.1)
-                .build();
+        this.add(folder2TextField, ConstraintsList.c4);
 
         JButton folder1Button = new JButton("Select newer folder...");
         folder1Button.addActionListener( new ActionListener() {
@@ -95,17 +46,7 @@ public class FileDifferenceWindow extends JFrame {
                 }
             }
         });
-        this.add(folder1Button, c5);
-
-        GridBagConstraints c6 = new GBCBuilder()
-                .gridLocation(3, 1)
-                .componentSize(3, 1)
-                .internalPadding(0, 0)
-                .externalPadding(0, 0, 0, 0)
-                .fill(GridBagConstraints.HORIZONTAL)
-                .anchor(GridBagConstraints.CENTER)
-                .weight(0.3, 0.1)
-                .build();
+        this.add(folder1Button, ConstraintsList.c5);
 
         JButton folder2Button = new JButton("Select older folder...");
         folder2Button.addActionListener( new ActionListener() {
@@ -117,68 +58,11 @@ public class FileDifferenceWindow extends JFrame {
                 }
             }
         });
-        this.add(folder2Button, c6);
+        this.add(folder2Button, ConstraintsList.c6);
 
-        GridBagConstraints c7 = new GBCBuilder()
-                .gridLocation(0, 2)
-                .componentSize(2, 2)
-                .internalPadding(0, 0)
-                .externalPadding(0, 0, 0, 0)
-                .fill(GridBagConstraints.BOTH)
-                .anchor(GridBagConstraints.CENTER)
-                .weight(0.8, 0.1)
-                .build();
-
-        JPanel outputPanel = new JPanel();
-        outputPanel.setBorder(BorderFactory.createTitledBorder("Output"));
-        JScrollPane pane = new JScrollPane(changedFiles);
-        outputPanel.setLayout(new GridLayout());
-        outputPanel.add(pane);
-        this.add(outputPanel, c7);
-
-        GridBagConstraints c8 = new GBCBuilder()
-                .gridLocation(2, 2)
-                .componentSize(2, 2)
-                .internalPadding(0, 0)
-                .externalPadding(0, 0, 0, 0)
-                .fill(GridBagConstraints.BOTH)
-                .anchor(GridBagConstraints.CENTER)
-                .weight(0.8, 0.1)
-                .build();
-
-        JPanel newFilesPanel = new JPanel();
-        newFilesPanel.setBorder(BorderFactory.createTitledBorder("Unique to Directory 1"));
-        JScrollPane newPane = new JScrollPane(uniqueToFolder1);
-        newFilesPanel.setLayout(new GridLayout());
-        newFilesPanel.add(newPane);
-        this.add(newFilesPanel, c8);
-
-        GridBagConstraints c9 = new GBCBuilder()
-                .gridLocation(4, 2)
-                .componentSize(2, 2)
-                .internalPadding(0, 0)
-                .externalPadding(0, 0, 0, 0)
-                .fill(GridBagConstraints.BOTH)
-                .anchor(GridBagConstraints.CENTER)
-                .weight(0.8, 0.1)
-                .build();
-
-        JPanel newFilesPanel2 = new JPanel();
-        newFilesPanel2.setBorder(BorderFactory.createTitledBorder("Unique to Directory 2"));
-        JScrollPane newPane2 = new JScrollPane(uniqueToFolder2);
-        newFilesPanel2.setLayout(new GridLayout());
-        newFilesPanel2.add(newPane2);
-        this.add(newFilesPanel2, c9);
-
-        GridBagConstraints c10 = new GBCBuilder()
-                .gridLocation(0, 4)
-                .componentSize(6, 1)
-                .internalPadding(0, 0)
-                .externalPadding(0, 0, 0, 0)
-                .fill(GridBagConstraints.HORIZONTAL)
-                .anchor(GridBagConstraints.CENTER)
-                .weight(0.8, 0.1)
-                .build();
+        this.add(wrapInScrollPaneAndPanel(changedFiles, "Changed Files"), ConstraintsList.c7);
+        this.add(wrapInScrollPaneAndPanel(uniqueToFolder1, "Unique to Folder 1"), ConstraintsList.c8);
+        this.add(wrapInScrollPaneAndPanel(uniqueToFolder2, "Unique to Folder 2"), ConstraintsList.c9);
 
         JButton traverseButton = new JButton("Start");
         traverseButton.addActionListener( new ActionListener() {
@@ -189,11 +73,16 @@ public class FileDifferenceWindow extends JFrame {
                 traverse(directory1, directory2);
             }
         });
-        this.add(traverseButton, c10);
-
-
+        this.add(traverseButton, ConstraintsList.c10);
     }
 
+    public JPanel wrapInScrollPaneAndPanel(Component c, String name) {
+        JScrollPane pane = new JScrollPane(c);
+        JPanel panel = new JPanel(new GridLayout());
+        panel.setBorder(BorderFactory.createTitledBorder(name));
+        panel.add(pane);
+        return panel;
+    }
     public File selectDirectory() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
