@@ -24,45 +24,35 @@ public class FileDifferenceWindow extends JFrame {
         this.setTitle("File Difference Checker");
         this.setLayout(new GridBagLayout());
 
-        JLabel folder1Label = new JLabel("Newer folder:");
-        this.add(folder1Label, ConstraintsList.c1);
-
         folder1TextField.setEditable(false);
-        this.add(folder1TextField, ConstraintsList.c2);
-
-        JLabel folder2Label = new JLabel("Older folder:");
-        this.add(folder2Label, ConstraintsList.c3);
+        this.add(folder1TextField, ConstraintsList.folder1Area);
 
         folder2TextField.setEditable(false);
-        this.add(folder2TextField, ConstraintsList.c4);
+        this.add(folder2TextField, ConstraintsList.folder2Area);
 
-        JButton folder1Button = new JButton("Select newer folder...");
-        folder1Button.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                File directory = selectDirectory();
-                if(directory != null) {
-                    directory1 = directory;
-                    folder1TextField.setText(directory1.getPath());
-                }
+        JButton folder1Button = new JButton("Select Folder 1...");
+        folder1Button.addActionListener( e -> {
+            File directory = selectDirectory();
+            if (directory != null) {
+                directory1 = directory;
+                folder1TextField.setText(directory1.getPath());
             }
         });
-        this.add(folder1Button, ConstraintsList.c5);
+        this.add(folder1Button, ConstraintsList.folder1Button);
 
-        JButton folder2Button = new JButton("Select older folder...");
-        folder2Button.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                File directory = selectDirectory();
-                if(directory != null) {
-                    directory2 = directory;
-                    folder2TextField.setText(directory2.getPath());
-                }
+        JButton folder2Button = new JButton("Select Folder 2...");
+        folder2Button.addActionListener( e -> {
+            File directory = selectDirectory();
+            if(directory != null) {
+                directory2 = directory;
+                folder2TextField.setText(directory2.getPath());
             }
         });
-        this.add(folder2Button, ConstraintsList.c6);
+        this.add(folder2Button, ConstraintsList.folder2Button);
 
-        this.add(wrapInScrollPaneAndPanel(changedFiles, "Changed Files"), ConstraintsList.c7);
-        this.add(wrapInScrollPaneAndPanel(uniqueToFolder1, "Unique to Folder 1"), ConstraintsList.c8);
-        this.add(wrapInScrollPaneAndPanel(uniqueToFolder2, "Unique to Folder 2"), ConstraintsList.c9);
+        this.add(wrapInScrollPaneAndPanel(changedFiles, "Changed Files"), ConstraintsList.changedFilesPanel);
+        this.add(wrapInScrollPaneAndPanel(uniqueToFolder1, "Unique to Folder 1"), ConstraintsList.folder1Panel);
+        this.add(wrapInScrollPaneAndPanel(uniqueToFolder2, "Unique to Folder 2"), ConstraintsList.folder2Panel);
 
         JButton traverseButton = new JButton("Start");
         traverseButton.addActionListener( new ActionListener() {
@@ -79,7 +69,7 @@ public class FileDifferenceWindow extends JFrame {
                 worker.execute();
             }
         });
-        this.add(traverseButton, ConstraintsList.c10);
+        this.add(traverseButton, ConstraintsList.startButton);
     }
 
     public void clearAllOutputs() {
