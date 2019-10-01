@@ -55,19 +55,29 @@ public class FileDifferenceWindow extends JFrame {
         this.add(wrapInScrollPaneAndPanel(uniqueToFolder2, "Unique to Folder 2"), ConstraintsList.folder2Panel);
 
         JButton traverseButton = new JButton("Start");
-        traverseButton.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                SwingWorker worker = new SwingWorker<Void, Void>() {
-                    @Override
-                    public Void doInBackground() {
-                        clearAllOutputs();
-                        traverse(directory1, directory2);
+        traverseButton.addActionListener(e -> {
+            SwingWorker worker = new SwingWorker<Void, Void>() {
+                @Override
+                public Void doInBackground() {
+                    if(!traverseButton.isEnabled()) {
                         return null;
                     }
-                };
+                    else {
+                        traverseButton.setText("Running...");
+                        traverseButton.setEnabled(false);
+                    }
+                    clearAllOutputs();
+                    traverse(directory1, directory2);
+                    return null;
+                }
 
-                worker.execute();
-            }
+                public void done() {
+                    traverseButton.setText("Start");
+                    traverseButton.setEnabled(true);
+                }
+            };
+
+            worker.execute();
         });
         this.add(traverseButton, ConstraintsList.startButton);
     }
